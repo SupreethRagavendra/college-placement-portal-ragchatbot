@@ -611,7 +611,7 @@
         }
 
         .flow-item::after {
-            content: '→';
+            content: '?';
             position: absolute;
             right: -25px;
             top: 30px;
@@ -894,12 +894,153 @@
             .find-portal-content { grid-template-columns: 1fr; }
             .stats-cards { grid-template-columns: 1fr; }
             .footer-content { grid-template-columns: 1fr; }
+            
+            /* Mobile Navigation */
+            .main-nav .navbar-collapse {
+                background: rgba(26, 26, 26, 0.98);
+                margin-top: 10px;
+                padding: 15px;
+                border-radius: 8px;
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+            
+            .main-nav .nav-link {
+                padding: 12px 15px !important;
+                font-size: 0.95rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .main-nav .nav-link:last-child {
+                border-bottom: none;
+            }
+            
+            .navbar-brand-custom img {
+                height: 55px;
+                width: 55px;
+            }
+            
+            .brand-text h1 {
+                font-size: 1.2rem;
+            }
+            
+            .brand-text p {
+                font-size: 0.75rem;
+            }
         }
 
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 2rem; }
             .hero-content p { font-size: 1rem; }
             .testing-grid { grid-template-columns: 1fr; }
+            
+            .main-nav {
+                padding: 5px 0;
+            }
+            
+            .main-nav .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            
+            .main-nav .navbar-collapse {
+                padding: 10px;
+                max-height: 60vh;
+            }
+            
+            .main-nav .nav-link {
+                padding: 10px 12px !important;
+                font-size: 0.9rem;
+            }
+            
+            .navbar-brand-custom {
+                padding: 8px 0;
+            }
+            
+            .navbar-brand-custom img {
+                height: 50px;
+                width: 50px;
+                margin-right: 10px;
+            }
+            
+            .brand-text h1 {
+                font-size: 1.1rem;
+            }
+            
+            .brand-text p {
+                font-size: 0.7rem;
+            }
+            
+            .navbar-toggler {
+                padding: 6px 10px;
+                background: rgba(255,255,255,0.1);
+            }
+            
+            .navbar-toggler:focus {
+                box-shadow: 0 0 0 0.25rem rgba(220, 20, 60, 0.3);
+            }
+            
+            .btn-primary-red,
+            .btn-login {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+                margin: 5px 0;
+                display: block;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .main-nav {
+                padding: 3px 0;
+            }
+            
+            .main-nav .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            .main-nav .navbar-collapse {
+                max-height: 50vh;
+                padding: 8px;
+            }
+            
+            .main-nav .nav-link {
+                padding: 8px 10px !important;
+                font-size: 0.85rem;
+            }
+            
+            .navbar-brand-custom img {
+                height: 45px;
+                width: 45px;
+                margin-right: 8px;
+            }
+            
+            .brand-text h1 {
+                font-size: 1rem;
+            }
+            
+            .brand-text p {
+                font-size: 0.65rem;
+            }
+            
+            .navbar-toggler {
+                padding: 5px 8px;
+            }
+            
+            .btn-primary-red,
+            .btn-login {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.6rem;
+            }
+            
+            .hero-content p {
+                font-size: 0.9rem;
+            }
         }
 
         /* Navigation Button Styles */
@@ -1090,7 +1231,7 @@
         <div class="container">
             <h2>
                 <div class="banner-icon"><i class="fas fa-brain"></i></div>
-                Smart Assessment System • AI Chatbot • Progress Tracking • Mock Tests
+                Smart Assessment System ? AI Chatbot ? Progress Tracking ? Mock Tests
             </h2>
         </div>
     </div>

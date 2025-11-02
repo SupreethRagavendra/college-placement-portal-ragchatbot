@@ -220,12 +220,21 @@
         }
         
         .main-nav .navbar-toggler {
-            border-color: rgba(255,255,255,0.5);
-            padding: 6px 10px;
+            border-color: rgba(255,255,255,0.7);
+            padding: 8px 12px;
+            margin-left: auto;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .main-nav .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.25rem rgba(253, 185, 19, 0.3);
+            border-color: rgba(253, 185, 19, 0.7);
         }
         
         .main-nav .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 24px;
+            height: 24px;
         }
         
         @media (max-width: 991.98px) {
@@ -237,7 +246,7 @@
         
         @media (max-width: 768px) {
             .main-nav {
-                padding: 0;
+                padding: 5px 0;
             }
             
             .main-nav .container {
@@ -246,30 +255,59 @@
             }
             
             .main-nav .nav-link {
-                padding: 10px 12px !important;
-                font-size: 0.85rem;
+                padding: 12px 15px !important;
+                font-size: 0.9rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .main-nav .nav-link:last-child {
+                border-bottom: none;
             }
             
             .main-nav .navbar-collapse {
-                background: rgba(0,0,0,0.1);
+                background: rgba(44, 95, 95, 0.98);
                 margin-top: 10px;
                 padding: 10px 0;
                 border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            }
+            
+            .main-nav .navbar-toggler {
+                padding: 6px 10px;
             }
         }
         
         @media (max-width: 575.98px) {
+            .main-nav {
+                padding: 3px 0;
+            }
+            
+            .main-nav .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
             .main-nav .nav-link {
-                padding: 8px 10px !important;
-                font-size: 0.8rem;
+                padding: 10px 12px !important;
+                font-size: 0.85rem;
             }
             
             .main-nav .nav-link i {
-                font-size: 0.75rem;
+                font-size: 0.8rem;
+                margin-right: 8px;
+            }
+            
+            .main-nav .navbar-collapse {
+                max-height: 50vh;
+                overflow-y: auto;
+            }
+            
+            .main-nav .navbar-toggler {
+                padding: 5px 8px;
             }
         }
         
-        /* Dropdown Menu Responsive Styles (if any dropdowns added later) */
+        /* Dropdown Menu Responsive Styles */
         .navbar .dropdown-menu {
             min-width: 200px;
             border-radius: 8px;
@@ -277,51 +315,89 @@
             border: none;
             margin-top: 8px;
             padding: 8px 0;
+            background: var(--white);
         }
         
         .navbar .dropdown-item {
             padding: 10px 20px;
             font-size: 0.95rem;
             transition: all 0.2s ease;
+            color: var(--text-dark);
         }
         
         .navbar .dropdown-item:hover {
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(253, 185, 19, 0.1);
+            color: var(--text-dark);
         }
         
-        @media (max-width: 768px) {
+        .navbar .dropdown-toggle::after {
+            margin-left: 5px;
+        }
+        
+        /* Mobile Navigation Fixes */
+        @media (max-width: 991.98px) {
+            .main-nav .navbar-collapse {
+                background: rgba(44, 95, 95, 0.98);
+                margin-top: 10px;
+                padding: 15px;
+                border-radius: 8px;
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+            
             .navbar .dropdown-menu {
                 min-width: 100%;
                 position: static !important;
                 transform: none !important;
-                margin-top: 10px;
-                margin-left: 0;
-                margin-right: 0;
                 box-shadow: none;
-                border: 1px solid rgba(255,255,255,0.1);
-                background: rgba(0,0,0,0.2);
+                border: 1px solid rgba(255,255,255,0.15);
+                background: rgba(44, 95, 95, 0.5);
+                margin-top: 5px;
+                margin-left: 15px;
+                border-radius: 8px;
             }
             
             .navbar .dropdown-item {
-                padding: 10px 20px;
+                padding: 10px 15px;
                 font-size: 0.9rem;
-                color: rgba(255,255,255,0.9);
+                color: rgba(255,255,255,0.95);
             }
             
             .navbar .dropdown-item:hover {
-                background-color: rgba(255,255,255,0.1);
-                color: #fff;
+                background-color: rgba(253, 185, 19, 0.2);
+                color: var(--white);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-nav .navbar-collapse {
+                padding: 10px;
+                max-height: 60vh;
+            }
+            
+            .navbar .dropdown-menu {
+                margin-left: 10px;
+            }
+            
+            .navbar .dropdown-item {
+                padding: 8px 12px;
+                font-size: 0.85rem;
             }
         }
         
         @media (max-width: 575.98px) {
+            .main-nav .navbar-collapse {
+                max-height: 50vh;
+            }
+            
             .navbar .dropdown-menu {
-                margin-top: 8px;
+                margin-top: 5px;
+                margin-left: 8px;
             }
             
             .navbar .dropdown-item {
-                padding: 8px 16px;
-                font-size: 0.85rem;
+                padding: 8px 10px;
+                font-size: 0.8rem;
             }
         }
 
@@ -461,6 +537,20 @@
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(253, 185, 19, 0.6);
             color: var(--text-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-btn {
+                padding: 12px 30px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .hero-btn {
+                padding: 10px 25px;
+                font-size: 0.85rem;
+            }
         }
 
         /* Yellow Banner */
