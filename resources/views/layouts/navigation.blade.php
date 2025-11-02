@@ -1,4 +1,25 @@
 <style>
+    /* Ensure navbar collapse is hidden by default on mobile */
+    .navbar-collapse:not(.show) {
+        display: none;
+    }
+    
+    @media (min-width: 992px) {
+        .navbar-collapse {
+            display: flex !important;
+        }
+    }
+    
+    /* Navbar toggler improvements */
+    .navbar-toggler:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.3);
+    }
+    
+    .navbar-toggler:not(.collapsed) {
+        background-color: rgba(255,255,255,0.2);
+    }
+    
     /* Dropdown Menu Responsive Styles */
     .navbar .dropdown-menu {
         min-width: 200px;
@@ -36,6 +57,15 @@
         margin-left: 5px;
     }
     
+    /* Hide dropdown by default */
+    .navbar .dropdown-menu {
+        display: none;
+    }
+    
+    .navbar .dropdown-menu.show {
+        display: block;
+    }
+    
     /* Responsive Dropdown Styles */
     @media (max-width: 991.98px) {
         .navbar .dropdown-menu {
@@ -54,6 +84,14 @@
     }
     
     @media (max-width: 768px) {
+        .navbar-collapse {
+            background: rgba(102, 126, 234, 0.98);
+            margin-top: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
         .navbar .dropdown-menu {
             min-width: 100%;
             position: static !important;
@@ -64,6 +102,11 @@
             box-shadow: none;
             border: 1px solid rgba(255,255,255,0.1);
             background: rgba(0,0,0,0.2);
+            display: none;
+        }
+        
+        .navbar .dropdown-menu.show {
+            display: block;
         }
         
         .navbar .dropdown-item {
@@ -84,6 +127,10 @@
         
         .navbar .dropdown-toggle::after {
             display: inline-block;
+        }
+        
+        .navbar .nav-link {
+            padding: 10px 15px !important;
         }
     }
     
@@ -142,3 +189,34 @@
         </div>
     </div>
 </nav>
+
+<script>
+    // Ensure Bootstrap dropdown works properly on mobile
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Bootstrap dropdowns
+        const dropdowns = document.querySelectorAll('[data-bs-toggle="dropdown"]');
+        dropdowns.forEach(dropdown => {
+            new bootstrap.Dropdown(dropdown);
+        });
+        
+        // Handle mobile menu collapse
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        
+        if (navbarToggler && navbarCollapse) {
+            navbarToggler.addEventListener('click', function() {
+                navbarCollapse.classList.toggle('show');
+            });
+        }
+        
+        // Close menu when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = navbarCollapse && navbarCollapse.contains(event.target);
+            const isTogglerClick = navbarToggler && navbarToggler.contains(event.target);
+            
+            if (!isClickInsideNav && !isTogglerClick && navbarCollapse && navbarCollapse.classList.contains('show')) {
+                navbarCollapse.classList.remove('show');
+            }
+        });
+    });
+</script>
