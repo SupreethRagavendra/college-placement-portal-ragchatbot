@@ -237,6 +237,14 @@
             height: 24px;
         }
         
+        /* Desktop: Show navbar collapse as flex */
+        @media (min-width: 992px) {
+            .main-nav .navbar-collapse {
+                display: flex !important;
+                align-items: center;
+            }
+        }
+        
         @media (max-width: 991.98px) {
             .main-nav .nav-link {
                 padding: 12px 15px !important;
@@ -264,7 +272,7 @@
                 border-bottom: none;
             }
             
-            .main-nav .navbar-collapse {
+            .main-nav .navbar-collapse.show {
                 background: rgba(44, 95, 95, 0.98);
                 margin-top: 10px;
                 padding: 10px 0;
@@ -297,7 +305,7 @@
                 margin-right: 8px;
             }
             
-            .main-nav .navbar-collapse {
+            .main-nav .navbar-collapse.show {
                 max-height: 50vh;
                 overflow-y: auto;
             }
@@ -337,12 +345,26 @@
         /* Mobile Navigation Fixes */
         @media (max-width: 991.98px) {
             .main-nav .navbar-collapse {
+                display: none !important;
+            }
+            
+            .main-nav .navbar-collapse.show {
+                display: block !important;
                 background: rgba(44, 95, 95, 0.98);
                 margin-top: 10px;
                 padding: 15px;
                 border-radius: 8px;
                 max-height: 70vh;
                 overflow-y: auto;
+            }
+            
+            .main-nav .navbar-collapse.show .navbar-nav {
+                display: block !important;
+                width: 100%;
+            }
+            
+            .main-nav .navbar-collapse.show .nav-item {
+                width: 100%;
             }
             
             .navbar .dropdown-menu {
