@@ -252,7 +252,7 @@
                             </ul>
                         </div>
 
-                        <form method="POST" action="{{ route('register') }}" accept-charset="UTF-8">
+                        <form method="POST" action="{{ route('register') }}" accept-charset="UTF-8" id="registerForm">
                             @csrf
                             
                             <!-- Name -->
@@ -268,6 +268,7 @@
                                        required 
                                        autofocus 
                                        autocomplete="name"
+                                       maxlength="255"
                                        placeholder="Enter your full name">
                                 @error('name')
                                     <div class="text-danger">{{ $message }}</div>
@@ -286,6 +287,9 @@
                                        value="{{ old('register_number') }}" 
                                        required 
                                        autocomplete="off"
+                                       maxlength="50"
+                                       pattern="[a-zA-Z0-9]+"
+                                       title="Only letters and numbers are allowed"
                                        placeholder="e.g., 711524mmc043">
                                 @error('register_number')
                                     <div class="text-danger">{{ $message }}</div>
@@ -304,6 +308,7 @@
                                        value="{{ old('email') }}" 
                                        required 
                                        autocomplete="username"
+                                       maxlength="255"
                                        placeholder="Enter your email address">
                                 @error('email')
                                     <div class="text-danger">{{ $message }}</div>
@@ -321,6 +326,8 @@
                                        name="password" 
                                        required 
                                        autocomplete="new-password"
+                                       minlength="8"
+                                       maxlength="255"
                                        placeholder="Create a strong password">
                                 <small class="text-muted d-block mt-1">
                                     <i class="fas fa-info-circle me-1"></i>
@@ -342,6 +349,8 @@
                                        name="password_confirmation" 
                                        required 
                                        autocomplete="new-password"
+                                       minlength="8"
+                                       maxlength="255"
                                        placeholder="Confirm your password">
                             </div>
 
@@ -374,12 +383,99 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Prevent 419 CSRF token errors
+        // Prevent 419 CSRF token errors and add validation
         document.addEventListener('DOMContentLoaded', function() {
-            const registerForm = document.querySelector('form[method="POST"]');
+            const registerForm = document.getElementById('registerForm');
+            const nameInput = document.getElementById('name');
+            const registerNumberInput = document.getElementById('register_number');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const passwordConfirmationInput = document.getElementById('password_confirmation');
             
             if (registerForm) {
+                // Client-side validation
                 registerForm.addEventListener('submit', function(e) {
+                    let isValid = true;
+                    let errors = [];
+                    
+                    // Remove all invalid classes first
+                    [nameInput, registerNumberInput, emailInput, passwordInput, passwordConfirmationInput].forEach(input => {
+                        input.classList.remove('is-invalid');
+                    });
+                    
+                    // Validate name
+                    if (nameInput.value.length > 255) {
+                        isValid = false;
+                        errors.push('Name should not exceed 255 characters.');
+                        nameInput.classList.add('is-invalid');
+                    }
+                    
+                    // Validate register number
+                    if (registerNumberInput.value.length > 50) {
+                        isValid = false;
+                        errors.push('Register number should not exceed 50 characters.');
+                        registerNumberInput.classList.add('is-invalid');
+                    }
+                    
+                    const registerNumberPattern = /^[a-zA-Z0-9]+$/;
+                    if (!registerNumberPattern.test(registerNumberInput.value)) {
+                        isValid = false;
+                        errors.push('Register number should only contain letters and numbers.');
+                        registerNumberInput.classList.add('is-invalid');
+                    }
+                    
+                    // Validate email
+                    if (emailInput.value.length > 255) {
+                        isValid = false;
+                        errors.push('Email should not exceed 255 characters.');
+                        emailInput.classList.add('is-invalid');
+                    }
+                    
+                    // Validate password
+                    if (passwordInput.value.length < 8) {
+                        isValid = false;
+                        errors.push('Password must be at least 8 characters long.');
+                        passwordInput.classList.add('is-invalid');
+                    }
+                    
+                    if (passwordInput.value.length > 255) {
+                        isValid = false;
+                        errors.push('Password should not exceed 255 characters.');
+                        passwordInput.classList.add('is-invalid');
+                    }
+                    
+                    // Check password strength
+                    const hasUppercase = /[A-Z]/.test(passwordInput.value);
+                    const hasLowercase = /[a-z]/.test(passwordInput.value);
+                    const hasNumber = /\d/.test(passwordInput.value);
+                    const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(passwordInput.value);
+                    
+                    if (!hasUppercase || !hasLowercase || !hasNumber || !hasSymbol) {
+                        isValid = false;
+                        errors.push('Password must contain uppercase, lowercase, numbers, and symbols.');
+                        passwordInput.classList.add('is-invalid');
+                    }
+                    
+                    // Validate password confirmation
+                    if (passwordInput.value !== passwordConfirmationInput.value) {
+                        isValid = false;
+                        errors.push('Password confirmation does not match.');
+                        passwordConfirmationInput.classList.add('is-invalid');
+                    }
+                    
+                    // Check if password is same as email
+                    if (passwordInput.value === emailInput.value) {
+                        isValid = false;
+                        errors.push('Password must be different from your email address.');
+                        passwordInput.classList.add('is-invalid');
+                    }
+                    
+                    if (!isValid) {
+                        e.preventDefault();
+                        alert('Please fix the following errors:\\n\\n' + errors.join('\\n'));
+                        return false;
+                    }
+                    
                     // Get the latest CSRF token from the meta tag
                     const csrfToken = document.querySelector('meta[name="csrf-token"]');
                     const csrfInput = registerForm.querySelector('input[name="_token"]');
@@ -387,6 +483,13 @@
                     if (csrfToken && csrfInput) {
                         csrfInput.value = csrfToken.content;
                     }
+                });
+                
+                // Remove invalid class on input
+                [nameInput, registerNumberInput, emailInput, passwordInput, passwordConfirmationInput].forEach(input => {
+                    input.addEventListener('input', function() {
+                        this.classList.remove('is-invalid');
+                    });
                 });
             }
             

@@ -264,6 +264,7 @@
                                        required 
                                        autofocus 
                                        autocomplete="username"
+                                       maxlength="255"
                                        placeholder="Enter your email address">
                                 @error('email')
                                     <div class="text-danger">{{ $message }}</div>
@@ -281,6 +282,8 @@
                                        name="password" 
                                        required 
                                        autocomplete="current-password"
+                                       minlength="6"
+                                       maxlength="255"
                                        placeholder="Enter your password">
                                 @error('password')
                                     <div class="text-danger">{{ $message }}</div>
@@ -333,12 +336,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Prevent 419 CSRF token errors
+        // Prevent 419 CSRF token errors and add validation
         document.addEventListener('DOMContentLoaded', function() {
             const loginForm = document.getElementById('loginForm');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
             
             if (loginForm) {
+                // Client-side validation
                 loginForm.addEventListener('submit', function(e) {
+                    let isValid = true;
+                    let errorMessage = '';
+                    
+                    // Validate email length
+                    if (emailInput.value.length > 255) {
+                        isValid = false;
+                        errorMessage = 'Email should not exceed 255 characters.';
+                        emailInput.classList.add('is-invalid');
+                    }
+                    
+                    // Validate password length
+                    if (passwordInput.value.length > 255) {
+                        isValid = false;
+                        errorMessage = 'Password should not exceed 255 characters.';
+                        passwordInput.classList.add('is-invalid');
+                    }
+                    
+                    if (passwordInput.value.length < 6) {
+                        isValid = false;
+                        errorMessage = 'Password must be at least 6 characters long.';
+                        passwordInput.classList.add('is-invalid');
+                    }
+                    
+                    if (!isValid) {
+                        e.preventDefault();
+                        alert(errorMessage);
+                        return false;
+                    }
+                    
                     // Get the latest CSRF token from the meta tag
                     const csrfToken = document.querySelector('meta[name="csrf-token"]');
                     const csrfInput = loginForm.querySelector('input[name="_token"]');
@@ -346,6 +381,15 @@
                     if (csrfToken && csrfInput) {
                         csrfInput.value = csrfToken.content;
                     }
+                });
+                
+                // Remove invalid class on input
+                emailInput.addEventListener('input', function() {
+                    this.classList.remove('is-invalid');
+                });
+                
+                passwordInput.addEventListener('input', function() {
+                    this.classList.remove('is-invalid');
                 });
             }
             
