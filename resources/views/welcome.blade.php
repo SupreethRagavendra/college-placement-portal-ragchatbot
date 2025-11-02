@@ -268,6 +268,62 @@
                 font-size: 0.75rem;
             }
         }
+        
+        /* Dropdown Menu Responsive Styles (if any dropdowns added later) */
+        .navbar .dropdown-menu {
+            min-width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: none;
+            margin-top: 8px;
+            padding: 8px 0;
+        }
+        
+        .navbar .dropdown-item {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        
+        .navbar .dropdown-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar .dropdown-menu {
+                min-width: 100%;
+                position: static !important;
+                transform: none !important;
+                margin-top: 10px;
+                margin-left: 0;
+                margin-right: 0;
+                box-shadow: none;
+                border: 1px solid rgba(255,255,255,0.1);
+                background: rgba(0,0,0,0.2);
+            }
+            
+            .navbar .dropdown-item {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+                color: rgba(255,255,255,0.9);
+            }
+            
+            .navbar .dropdown-item:hover {
+                background-color: rgba(255,255,255,0.1);
+                color: #fff;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .navbar .dropdown-menu {
+                margin-top: 8px;
+            }
+            
+            .navbar .dropdown-item {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
 
         .main-nav .nav-link::after {
             content: '';

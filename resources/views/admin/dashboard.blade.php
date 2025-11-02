@@ -295,6 +295,97 @@
                 padding: 1rem;
             }
         }
+        
+        /* Dropdown Menu Responsive Styles */
+        .navbar .dropdown-menu {
+            min-width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: none;
+            margin-top: 8px;
+            padding: 8px 0;
+        }
+        
+        .navbar .dropdown-item {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            color: #333;
+        }
+        
+        .navbar .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #000;
+        }
+        
+        .navbar .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .navbar .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        @media (max-width: 991.98px) {
+            .navbar .dropdown-menu {
+                min-width: 180px;
+                margin-top: 5px;
+            }
+            
+            .navbar .dropdown-item {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .navbar .dropdown-toggle {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar .dropdown-menu {
+                min-width: 100%;
+                position: static !important;
+                transform: none !important;
+                margin-top: 10px;
+                margin-left: 0;
+                margin-right: 0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                border: 1px solid #e0e0e0;
+            }
+            
+            .navbar .dropdown-item {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .navbar .dropdown-item:hover {
+                background-color: #f8f9fa;
+            }
+            
+            .navbar .dropdown-divider {
+                margin: 8px 0;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .navbar .dropdown-menu {
+                margin-top: 8px;
+            }
+            
+            .navbar .dropdown-item {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+            
+            .navbar .dropdown-toggle {
+                font-size: 0.85rem;
+                padding: 5px 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -351,16 +442,17 @@
                                 <i class="fas fa-chart-line me-2" style="color: var(--primary-red);"></i>
                                 Training Portal Dashboard
                             </h5>
-                            <div class="navbar-nav ms-auto">
-                                <span class="navbar-text me-3">
+                            <div class="navbar-nav ms-auto align-items-center">
+                                <span class="navbar-text me-3 d-none d-md-inline">
                                     Welcome, {{ Auth::user()->name }}!
                                 </span>
                                 <div class="dropdown">
-                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="fas fa-user-circle me-1"></i>
-                                        {{ Auth::user()->name }}
+                                        <span class="d-none d-sm-inline">{{ Auth::user()->name }}</span>
+                                        <span class="d-sm-none">User</span>
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu dropdown-menu-end">
                                         <li>
                                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
