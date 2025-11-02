@@ -200,6 +200,101 @@
             border-color: var(--primary-red);
             color: white;
         }
+        
+        /* Sidebar Responsive Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            width: 250px;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .sidebar-overlay.show {
+            display: block;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .sidebar-toggle {
+            display: none;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar-toggle {
+                display: inline-block;
+            }
+            
+            .navbar {
+                padding: 10px 15px;
+            }
+            
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+            
+            .navbar-text {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .navbar-brand {
+                font-size: 1rem;
+            }
+            
+            .navbar-text {
+                display: none;
+            }
+            
+            .sidebar {
+                width: 220px;
+            }
+            
+            .stat-card {
+                padding: 20px 15px;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
