@@ -73,11 +73,11 @@ APP_URL=http://localhost:8000
 
 # Database Configuration (Supabase PostgreSQL)
 DB_CONNECTION=pgsql
-DB_HOST=db.wkqbukidxmzbgwauncrl.supabase.co
+DB_HOST=your-supabase-project.supabase.co
 DB_PORT=5432
 DB_DATABASE=postgres
-DB_USERNAME=postgres
-DB_PASSWORD="Supreeeth24#"
+DB_USERNAME=your-database-username
+DB_PASSWORD="your-secure-password-here"
 DB_SSLMODE=require
 
 # Email Configuration

@@ -16,9 +16,14 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/test-db', function () {
     try {
         $pdo = new PDO(
-            "pgsql:host=db.wkqbukidxmzbgwauncrl.supabase.co;port=5432;dbname=postgres;sslmode=require",
-            "postgres",
-            "Supreeeth24#"
+            sprintf(
+                "pgsql:host=%s;port=%d;dbname=%s;sslmode=require",
+                config('database.connections.pgsql.host'),
+                config('database.connections.pgsql.port'),
+                config('database.connections.pgsql.database')
+            ),
+            config('database.connections.pgsql.username'),
+            config('database.connections.pgsql.password')
         );
         
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -105,9 +110,12 @@ Route::get('/rag-health', [\App\Http\Controllers\Student\OpenRouterChatbotContro
 // Authentication routes (no email verification required)
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register'])
+        ->middleware('throttle:5,1'); // 5 registrations per minute
+    
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])
+        ->middleware('throttle:5,1'); // 5 login attempts per minute
 });
 
 // Redirect authenticated users based on role

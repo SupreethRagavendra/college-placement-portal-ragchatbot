@@ -1,0 +1,416 @@
+{
+  "project_name": "College Placement Training Portal",
+  "project_description": "A comprehensive Laravel-based web application for managing college placement training programs with role-based authentication, email verification, PostgreSQL database integration, and AI-powered chatbot assistance using RAG (Retrieval-Augmented Generation) technology.",
+  "tech_stack": {
+    "backend": {
+      "framework": "Laravel 12.x",
+      "language": "PHP 8.2+",
+      "architecture": "MVC (Model-View-Controller)",
+      "dependencies": [
+        "laravel/framework@^12.0",
+        "laravel/tinker@^2.10.1",
+        "laravel/breeze@^2.3",
+        "phpmailer/phpmailer",
+        "ext-pdo_pgsql"
+      ]
+    },
+    "frontend": {
+      "frameworks": ["Bootstrap 5", "Tailwind CSS 4.0"],
+      "libraries": ["Alpine.js 3.4", "Axios 1.11", "Font Awesome"],
+      "build_tools": ["Vite 7.0", "Laravel Vite Plugin 2.0"]
+    },
+    "database": {
+      "type": "PostgreSQL",
+      "provider": "Supabase",
+      "orm": "Eloquent ORM"
+    },
+    "ai_services": {
+      "chatbot": {
+        "technology": "RAG (Retrieval-Augmented Generation)",
+        "framework": "Python FastAPI",
+        "port": 8001,
+        "integration": "OpenRouter API"
+      }
+    },
+    "deployment": {
+      "platforms": ["Render.com", "Docker", "Oracle Cloud"],
+      "web_server": "PHP built-in (dev), Apache/Nginx (prod)"
+    }
+  },
+  "features": {
+    "authentication": {
+      "registration": "Role-based registration for Admin and Student",
+      "login": "Email/password authentication with session management",
+      "email_verification": "Mandatory email verification before login",
+      "password_management": "Password reset functionality",
+      "admin_approval": "Admin approval workflow for student accounts",
+      "security": ["CSRF protection", "Brute-force prevention", "Remember me functionality"]
+    },
+    "admin_features": [
+      {
+        "name": "Dashboard",
+        "description": "Comprehensive admin dashboard with real-time statistics, recent activity feed, visual charts"
+      },
+      {
+        "name": "Student Management",
+        "description": "View, approve, reject students; bulk operations; restore/revoke access"
+      },
+      {
+        "name": "Assessment Management",
+        "description": "Create assessments, manage question banks, configure parameters (duration, passing marks, attempts)"
+      },
+      {
+        "name": "Question Bank",
+        "description": "Add/edit/delete questions, organize by categories, set difficulty levels"
+      },
+      {
+        "name": "Reports & Analytics",
+        "description": "Assessment details, student performance tracking, category analysis, question analysis, CSV export"
+      },
+      {
+        "name": "RAG Sync",
+        "description": "Synchronize knowledge base with AI chatbot service"
+      }
+    ],
+    "student_features": [
+      {
+        "name": "Dashboard",
+        "description": "Personal dashboard with learning progress, achievements, upcoming assessments"
+      },
+      {
+        "name": "Assessment Taking",
+        "description": "Timed assessments with countdown, auto-save, navigation, flag for review, auto-submit"
+      },
+      {
+        "name": "Results & Analytics",
+        "description": "Immediate results, detailed performance breakdown, historical tracking, category-wise analysis"
+      },
+      {
+        "name": "AI Chatbot",
+        "description": "Context-aware chatbot with natural language processing, personalized responses, 24/7 availability"
+      },
+      {
+        "name": "Profile Management",
+        "description": "Update profile information, change password, account deletion with confirmation"
+      }
+    ],
+    "technical_features": [
+      "PostgreSQL Integration with Supabase",
+      "SMTP-based Email System",
+      "Responsive Mobile-friendly Design",
+      "CSRF Protection",
+      "SQL Injection Prevention",
+      "XSS Protection",
+      "Session Management",
+      "Health Check Endpoints",
+      "Database Connection Pooling",
+      "Performance Optimization with Indexes",
+      "Caching Strategy"
+    ]
+  },
+  "database_schema": {
+    "tables": [
+      {
+        "name": "users",
+        "description": "User accounts with role-based access",
+        "key_columns": ["id", "name", "email", "password", "role", "email_verified_at", "is_approved", "rejection_reason", "register_number"]
+      },
+      {
+        "name": "assessments",
+        "description": "Assessment/test definitions",
+        "key_columns": ["id", "title", "description", "duration", "passing_marks", "category", "is_active", "allow_multiple_attempts"]
+      },
+      {
+        "name": "questions",
+        "description": "Question bank with multiple choice options",
+        "key_columns": ["id", "assessment_id", "category", "question_text", "option_a", "option_b", "option_c", "option_d", "correct_answer", "time_per_question"]
+      },
+      {
+        "name": "categories",
+        "description": "Question and assessment categories",
+        "key_columns": ["id", "name", "description"]
+      },
+      {
+        "name": "student_assessments",
+        "description": "Student assessment attempts and progress",
+        "key_columns": ["id", "user_id", "assessment_id", "started_at", "completed_at", "score", "status"]
+      },
+      {
+        "name": "student_answers",
+        "description": "Individual student answers to questions",
+        "key_columns": ["id", "student_assessment_id", "question_id", "selected_answer", "is_correct"]
+      },
+      {
+        "name": "student_results",
+        "description": "Final assessment results",
+        "key_columns": ["id", "user_id", "assessment_id", "score", "total_questions", "correct_answers", "passed"]
+      },
+      {
+        "name": "chatbot_conversations",
+        "description": "Chatbot conversation sessions",
+        "key_columns": ["id", "user_id", "started_at", "ended_at", "messages"]
+      },
+      {
+        "name": "chatbot_messages",
+        "description": "Individual chatbot messages",
+        "key_columns": ["id", "conversation_id", "role", "content", "created_at"]
+      },
+      {
+        "name": "student_performance_analytics",
+        "description": "Performance tracking and analytics",
+        "key_columns": ["id", "user_id", "assessment_id", "category", "score", "time_taken", "insights"]
+      },
+      {
+        "name": "email_verification_tokens",
+        "description": "Email verification tokens with expiry",
+        "key_columns": ["id", "user_id", "token", "expires_at"]
+      },
+      {
+        "name": "account_deletion_tokens",
+        "description": "Account deletion confirmation tokens",
+        "key_columns": ["id", "user_id", "token", "expires_at"]
+      }
+    ]
+  },
+  "api_endpoints": {
+    "authentication": [
+      "GET /register - Registration form",
+      "POST /register - Process registration",
+      "GET /login - Login form",
+      "POST /login - Process login",
+      "POST /logout - Logout user"
+    ],
+    "admin_routes": [
+      "GET /admin/dashboard - Admin dashboard",
+      "GET /admin/dashboard/stats - Dashboard statistics",
+      "GET /admin/students/pending - Pending student approvals",
+      "POST /admin/students/{id}/approve - Approve student",
+      "POST /admin/students/{id}/reject - Reject student",
+      "POST /admin/students/bulk-approve - Bulk approve students",
+      "POST /admin/students/bulk-reject - Bulk reject students",
+      "GET /admin/students/approved - List approved students",
+      "GET /admin/students/rejected - List rejected students",
+      "POST /admin/students/{id}/restore - Restore rejected student",
+      "DELETE /admin/students/{id}/revoke - Revoke approved student",
+      "GET /admin/reports - Reports index",
+      "GET /admin/reports/assessments/{assessment} - Assessment details",
+      "GET /admin/reports/students - Student performance",
+      "GET /admin/reports/students/{student} - Student details",
+      "GET /admin/reports/categories - Category analysis",
+      "GET /admin/reports/questions/{assessment} - Question analysis",
+      "GET /admin/reports/export - Export reports to CSV",
+      "POST /admin/rag/sync - Sync RAG knowledge base",
+      "GET /admin/rag/health - Check RAG service health"
+    ],
+    "student_routes": [
+      "GET /student/dashboard - Student dashboard",
+      "POST /student/chatbot-ask - Ask chatbot (original)",
+      "GET /student/chatbot-stats - Get chatbot stats",
+      "POST /student/intelligent-chat - Intelligent chatbot",
+      "GET /student/conversation-history - Conversation history",
+      "POST /student/chatbot-feedback - Submit chatbot feedback",
+      "GET /student/performance-insights - Performance insights",
+      "POST /student/rag-chat - RAG-powered chatbot",
+      "GET /student/rag-health - Check RAG service health",
+      "GET /student/categories - List assessment categories",
+      "GET /student/test/{id} - Take assessment",
+      "POST /student/test/{id}/submit - Submit assessment",
+      "GET /student/results/{id} - View assessment results",
+      "GET /student/history - Assessment history"
+    ],
+    "profile_routes": [
+      "GET /profile - Edit profile",
+      "PATCH /profile - Update profile",
+      "PUT /password - Update password",
+      "DELETE /profile - Delete account"
+    ],
+    "public_routes": [
+      "GET / - Landing page",
+      "GET /healthz - Health check for monitoring",
+      "GET /rag-health - RAG service health check",
+      "GET /test-db - Test database connection",
+      "GET /test-supabase - Test Supabase configuration"
+    ]
+  },
+  "controllers": [
+    "AuthController - Authentication logic",
+    "AdminController - Admin dashboard and management",
+    "AdminStudentController - Student verification",
+    "AdminReportController - Reports and analytics",
+    "AdminAssessmentController - Assessment management",
+    "StudentController - Student dashboard and features",
+    "StudentAssessmentController - Assessment taking",
+    "ProfileController - Profile management",
+    "Admin\\AssessmentController - Admin assessment operations",
+    "Admin\\QuestionController - Question bank management",
+    "Admin\\ResultController - Result management",
+    "Admin\\DashboardDataController - Dashboard data API",
+    "Student\\AssessmentController - Student assessment operations",
+    "Student\\ResultController - Student results",
+    "Student\\ChatbotController - Original chatbot",
+    "Student\\IntelligentChatbotController - Enhanced chatbot",
+    "Student\\OpenRouterChatbotController - RAG-powered chatbot"
+  ],
+  "models": [
+    "User - User accounts and authentication",
+    "Assessment - Assessment definitions",
+    "Question - Question bank",
+    "Category - Categories for organization",
+    "StudentAssessment - Student assessment attempts",
+    "StudentAnswer - Individual answers",
+    "StudentResult - Final results",
+    "ChatbotConversation - Chatbot sessions",
+    "ChatbotMessage - Chatbot messages",
+    "StudentPerformanceAnalytics - Performance tracking"
+  ],
+  "middleware": [
+    "auth - Require authentication",
+    "guest - Require guest (not authenticated)",
+    "role:admin - Require admin role",
+    "role:student - Require student role",
+    "verified - Require email verification (optional)"
+  ],
+  "views": {
+    "admin_views": [
+      "admin.dashboard",
+      "admin.pending-students",
+      "admin.approved-students",
+      "admin.rejected-students",
+      "admin.assessments.*",
+      "admin.reports.*",
+      "admin.results.*"
+    ],
+    "student_views": [
+      "student.dashboard",
+      "student.assessments.*",
+      "student.results.*",
+      "student.profile",
+      "student.history",
+      "student.analytics",
+      "student.categories"
+    ],
+    "auth_views": [
+      "auth.login",
+      "auth.register",
+      "auth.verify-email",
+      "auth.forgot-password",
+      "auth.reset-password",
+      "auth.pending-approval"
+    ],
+    "common_views": [
+      "landing",
+      "dashboard",
+      "profile.edit",
+      "layouts.*",
+      "components.*"
+    ]
+  },
+  "environment_variables": [
+    "APP_NAME - Application name",
+    "APP_ENV - Environment (local/production)",
+    "APP_KEY - Application encryption key",
+    "APP_DEBUG - Debug mode",
+    "APP_URL - Application URL",
+    "DB_CONNECTION - Database type (pgsql)",
+    "DB_HOST - Database host",
+    "DB_PORT - Database port (5432 or 6543)",
+    "DB_DATABASE - Database name",
+    "DB_USERNAME - Database username",
+    "DB_PASSWORD - Database password",
+    "DB_SSLMODE - SSL mode (require)",
+    "MAIL_MAILER - Mail driver",
+    "MAIL_HOST - SMTP host",
+    "MAIL_PORT - SMTP port",
+    "MAIL_USERNAME - SMTP username",
+    "MAIL_PASSWORD - SMTP password",
+    "MAIL_ENCRYPTION - Encryption type",
+    "MAIL_FROM_ADDRESS - From email address",
+    "MAIL_FROM_NAME - From name",
+    "SUPABASE_URL - Supabase project URL",
+    "SUPABASE_ANON_KEY - Supabase anonymous key",
+    "SUPABASE_SERVICE_ROLE_KEY - Supabase service role key",
+    "OPENROUTER_API_KEY - OpenRouter API key for AI",
+    "RAG_SERVICE_URL - RAG service URL (default: http://localhost:8001)",
+    "SESSION_DRIVER - Session storage driver",
+    "CACHE_DRIVER - Cache storage driver"
+  ],
+  "testing": {
+    "framework": "PHPUnit 11.5",
+    "test_directories": ["tests/Feature", "tests/Unit"],
+    "test_command": "php artisan test"
+  },
+  "development": {
+    "local_port": 8000,
+    "rag_service_port": 8001,
+    "dev_command": "php artisan serve",
+    "build_assets": "npm run dev",
+    "hot_reload": "Vite HMR enabled"
+  },
+  "security_features": [
+    "CSRF token protection on all forms",
+    "SQL injection prevention via Eloquent ORM",
+    "XSS protection with blade escaping",
+    "Password hashing with bcrypt",
+    "Email verification required",
+    "Admin approval workflow",
+    "Session security",
+    "Rate limiting on authentication",
+    "Secure password reset flow",
+    "Account deletion confirmation"
+  ],
+  "deployment_configurations": {
+    "docker": {
+      "dockerfile": "Dockerfile",
+      "compose": "docker-compose.yml",
+      "port": 8000
+    },
+    "render": {
+      "config": "render.yaml",
+      "build_script": "render-build.sh",
+      "services": ["web", "rag-service"]
+    }
+  },
+  "key_workflows": [
+    {
+      "name": "Student Registration & Approval",
+      "steps": [
+        "Student registers with email and role",
+        "Admin receives notification",
+        "Admin reviews and approves/rejects",
+        "Student receives email notification",
+        "Student can login if approved"
+      ]
+    },
+    {
+      "name": "Assessment Taking",
+      "steps": [
+        "Student selects assessment from dashboard",
+        "System starts timer and tracks progress",
+        "Student answers questions with navigation",
+        "System auto-saves answers",
+        "Student submits or time expires",
+        "System calculates score immediately",
+        "Student views detailed results"
+      ]
+    },
+    {
+      "name": "AI Chatbot Interaction",
+      "steps": [
+        "Student asks question via chatbot interface",
+        "Laravel sends request to RAG service",
+        "RAG retrieves relevant context from database",
+        "OpenRouter AI generates personalized response",
+        "Response displayed to student",
+        "Conversation history saved"
+      ]
+    }
+  ],
+  "integration_points": [
+    "Supabase PostgreSQL - Primary database",
+    "OpenRouter API - AI chatbot service",
+    "Python RAG Service - Knowledge retrieval",
+    "SMTP Server - Email notifications",
+    "Render.com - Deployment platform"
+  ]
+}
+
