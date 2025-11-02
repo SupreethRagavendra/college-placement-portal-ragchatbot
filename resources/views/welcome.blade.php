@@ -466,7 +466,7 @@
         }
 
         .flow-item::after {
-            content: '→';
+            content: '?';
             position: absolute;
             right: -25px;
             top: 30px;
@@ -737,21 +737,346 @@
 
         /* Responsive */
         @media (max-width: 992px) {
-            .hero-content h1 { font-size: 2.5rem; }
-            .training-grid { grid-template-columns: 1fr; }
-            .portal-features { grid-template-columns: 1fr; }
-            .internship-flow { flex-direction: column; }
-            .flow-item::after { display: none; }
-            .find-portal-content { grid-template-columns: 1fr; }
-            .stats-cards { grid-template-columns: 1fr; }
-            .footer-content { grid-template-columns: 1fr; }
+            .top-bar {
+                padding: 8px 0;
+                font-size: 0.75rem;
+            }
+            
+            .top-bar a {
+                margin: 0 8px;
+            }
+            
+            .navbar-brand-custom img {
+                height: 50px;
+                width: 50px;
+                margin-right: 10px;
+            }
+            
+            .brand-text h1 {
+                font-size: 1.1rem;
+            }
+            
+            .brand-text p {
+                font-size: 0.7rem;
+            }
+            
+            .main-nav .nav-link {
+                padding: 15px 15px !important;
+                font-size: 0.9rem;
+            }
+            
+            .hero-section {
+                height: 500px;
+            }
+            
+            .hero-content h1 { 
+                font-size: 2.5rem; 
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .yellow-banner h2 {
+                font-size: 1.4rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .banner-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .feature-box {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.2);
+                padding: 30px 20px;
+            }
+            
+            .feature-box:last-child {
+                border-bottom: none;
+            }
+            
+            .training-grid { 
+                grid-template-columns: 1fr; 
+                gap: 30px;
+            }
+            
+            .portal-features { 
+                grid-template-columns: 1fr; 
+                gap: 30px;
+            }
+            
+            .internship-flow { 
+                flex-direction: column; 
+                gap: 20px;
+            }
+            
+            .flow-item::after { 
+                display: none; 
+            }
+            
+            .find-portal-content { 
+                grid-template-columns: 1fr; 
+                gap: 30px;
+            }
+            
+            .stats-cards { 
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            
+            .footer-content { 
+                grid-template-columns: 1fr; 
+                gap: 30px;
+            }
         }
 
         @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2rem; }
-            .hero-content p { font-size: 1rem; }
-            .testing-grid { grid-template-columns: 1fr; }
+            .top-bar {
+                padding: 6px 0;
+                font-size: 0.7rem;
             }
+            
+            .top-bar .d-flex {
+                flex-wrap: wrap;
+                justify-content: center !important;
+            }
+            
+            .top-bar a {
+                margin: 2px 5px;
+                font-size: 0.65rem;
+            }
+            
+            .navbar-brand-custom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .navbar-brand-custom img {
+                height: 40px;
+                width: 40px;
+                margin-bottom: 5px;
+            }
+            
+            .brand-text h1 {
+                font-size: 0.95rem;
+            }
+            
+            .brand-text p {
+                font-size: 0.65rem;
+            }
+            
+            .main-nav .nav-link {
+                padding: 12px 12px !important;
+                font-size: 0.85rem;
+            }
+            
+            .hero-section {
+                height: 400px;
+            }
+            
+            .hero-content h1 { 
+                font-size: 2rem; 
+                line-height: 1.3;
+            }
+            
+            .hero-content p { 
+                font-size: 1rem; 
+                margin-bottom: 20px;
+            }
+            
+            .hero-btn {
+                padding: 12px 30px;
+                font-size: 0.9rem;
+            }
+            
+            .yellow-banner {
+                padding: 20px 0;
+            }
+            
+            .yellow-banner h2 {
+                font-size: 1.1rem;
+                padding: 0 15px;
+            }
+            
+            .features-section {
+                padding: 40px 0;
+            }
+            
+            .feature-box {
+                padding: 25px 15px;
+            }
+            
+            .feature-icon-circle {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .feature-box h3 {
+                font-size: 1.2rem;
+            }
+            
+            .years-section {
+                padding: 50px 0;
+            }
+            
+            .years-section h2 {
+                font-size: 2rem;
+            }
+            
+            .years-section h3 {
+                font-size: 1.5rem;
+            }
+            
+            .training-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .training-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .portal-description {
+                padding: 50px 0;
+            }
+            
+            .portal-title h2 {
+                font-size: 2rem;
+            }
+            
+            .portal-feature-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+            
+            .testing-section {
+                padding: 25px 15px;
+            }
+            
+            .testing-grid { 
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            
+            .internship-section {
+                padding: 50px 0;
+            }
+            
+            .internship-section h2 {
+                font-size: 2rem;
+            }
+            
+            .flow-box {
+                padding: 20px 15px;
+                min-height: auto;
+            }
+            
+            .flow-box h4 {
+                font-size: 1.1rem;
+            }
+            
+            .find-portal-section {
+                padding: 50px 0;
+            }
+            
+            .portal-text h2 {
+                font-size: 2rem;
+            }
+            
+            .portal-text h3 {
+                font-size: 1.5rem;
+            }
+            
+            .portal-text p {
+                font-size: 1rem;
+            }
+            
+            .stat-card {
+                padding: 30px 20px;
+            }
+            
+            .stat-card h3 {
+                font-size: 2rem;
+            }
+            
+            .training-section {
+                padding: 50px 0;
+            }
+            
+            .training-section h2 {
+                font-size: 2rem;
+            }
+            
+            .training-section p {
+                font-size: 1rem;
+            }
+            
+            .footer {
+                padding: 40px 0 15px;
+            }
+            
+            .footer-content {
+                gap: 25px;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .top-bar a {
+                display: block;
+                margin: 3px 0;
+                text-align: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.6rem;
+            }
+            
+            .hero-content p {
+                font-size: 0.9rem;
+            }
+            
+            .yellow-banner h2 {
+                font-size: 0.95rem;
+            }
+            
+            .years-section h2 {
+                font-size: 1.6rem;
+            }
+            
+            .years-section h3 {
+                font-size: 1.3rem;
+            }
+            
+            .portal-title h2 {
+                font-size: 1.6rem;
+            }
+            
+            .internship-section h2 {
+                font-size: 1.6rem;
+            }
+            
+            .portal-text h2 {
+                font-size: 1.6rem;
+            }
+            
+            .portal-text h3 {
+                font-size: 1.3rem;
+            }
+            
+            .training-section h2 {
+                font-size: 1.6rem;
+            }
+        }
             </style>
     </head>
     <body>

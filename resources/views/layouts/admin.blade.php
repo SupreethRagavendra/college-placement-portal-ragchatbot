@@ -49,6 +49,32 @@
             min-height: 100vh;
             background: linear-gradient(180deg, var(--black) 0%, var(--dark-gray) 100%);
             box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            width: 250px;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+        
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .sidebar-overlay.show {
+            display: block;
         }
         
         .sidebar .nav-link {
@@ -88,6 +114,12 @@
         .main-content {
             background-color: var(--light-gray);
             min-height: 100vh;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-content.full-width {
+            margin-left: 0;
         }
         
         /* Top Navbar */
@@ -109,6 +141,17 @@
             font-weight: 500;
         }
         
+        .sidebar-toggle {
+            display: none;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        
         /* Card Styles */
         .card {
             border: none;
@@ -127,6 +170,59 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
+        
+        /* Responsive Styles */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar-toggle {
+                display: inline-block;
+            }
+            
+            .navbar {
+                padding: 10px 15px;
+            }
+            
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+            
+            .navbar-text {
+                font-size: 0.9rem;
+            }
+            
+            .content-container {
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .navbar-brand {
+                font-size: 1rem;
+            }
+            
+            .navbar-text {
+                display: none;
+            }
+            
+            .content-container {
+                padding: 10px;
+            }
+            
+            .sidebar {
+                width: 220px;
+            }
+        }
     </style>
     @stack('head')
     @yield('styles')
@@ -135,83 +231,120 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 px-0">
-                <div class="sidebar">
-                    <div class="p-4">
-                        <h4 class="text-white mb-4" style="font-weight: 700; letter-spacing: 0.5px;">
-                            <i class="fas fa-shield-alt me-2"></i>
-                            Admin Portal
-                        </h4>
-                        <nav class="nav flex-column">
-                            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                            </a>
-                            
-                            <a class="nav-link {{ request()->is('admin/students/pending') ? 'active' : '' }}" href="{{ route('admin.pending-students') }}">
-                                <i class="fas fa-clock me-2"></i>Pending Students
-                            </a>
-                            
-                            <a class="nav-link {{ request()->is('admin/students/approved') ? 'active' : '' }}" href="{{ route('admin.approved-students') }}">
-                                <i class="fas fa-check-circle me-2"></i>Approved Students
-                            </a>
-                            
-                            <a class="nav-link {{ request()->is('admin/students/rejected') ? 'active' : '' }}" href="{{ route('admin.rejected-students') }}">
-                                <i class="fas fa-times-circle me-2"></i>Rejected Students
-                            </a>
-                            
-                            <hr class="text-white-50">
-                            
-                            <a class="nav-link {{ request()->is('admin/assessments*') ? 'active' : '' }}" href="{{ route('admin.assessments.index') }}">
-                                <i class="fas fa-clipboard-list me-2"></i>Assessments
-                            </a>
-                            
-                            <a class="nav-link {{ request()->routeIs('admin.reports.student-performance') ? 'active' : '' }}" href="{{ route('admin.reports.student-performance') }}">
-                                <i class="fas fa-user-graduate me-2"></i>Student Progress
-                            </a>
-                            
-                            <a class="nav-link {{ request()->is('admin/reports*') && !request()->routeIs('admin.reports.student-performance') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
-                                <i class="fas fa-chart-line me-2"></i>Reports
-                            </a>
-                            
-                            <hr class="text-white-50">
-                            
-                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt me-2"></i>Logout
-                            </a>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="p-4">
+            <h4 class="text-white mb-4" style="font-weight: 700; letter-spacing: 0.5px;">
+                <i class="fas fa-shield-alt me-2"></i>
+                Admin Portal
+            </h4>
+            <nav class="nav flex-column">
+                <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                
+                <a class="nav-link {{ request()->is('admin/students/pending') ? 'active' : '' }}" href="{{ route('admin.pending-students') }}">
+                    <i class="fas fa-clock me-2"></i>Pending Students
+                </a>
+                
+                <a class="nav-link {{ request()->is('admin/students/approved') ? 'active' : '' }}" href="{{ route('admin.approved-students') }}">
+                    <i class="fas fa-check-circle me-2"></i>Approved Students
+                </a>
+                
+                <a class="nav-link {{ request()->is('admin/students/rejected') ? 'active' : '' }}" href="{{ route('admin.rejected-students') }}">
+                    <i class="fas fa-times-circle me-2"></i>Rejected Students
+                </a>
+                
+                <hr class="text-white-50">
+                
+                <a class="nav-link {{ request()->is('admin/assessments*') ? 'active' : '' }}" href="{{ route('admin.assessments.index') }}">
+                    <i class="fas fa-clipboard-list me-2"></i>Assessments
+                </a>
+                
+                <a class="nav-link {{ request()->routeIs('admin.reports.student-performance') ? 'active' : '' }}" href="{{ route('admin.reports.student-performance') }}">
+                    <i class="fas fa-user-graduate me-2"></i>Student Progress
+                </a>
+                
+                <a class="nav-link {{ request()->is('admin/reports*') && !request()->routeIs('admin.reports.student-performance') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
+                    <i class="fas fa-chart-line me-2"></i>Reports
+                </a>
+                
+                <hr class="text-white-50">
+                
+                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </nav>
+        </div>
+    </div>
 
-            <!-- Main Content -->
-            <div class="col-md-9 col-lg-10 px-0">
-                <div class="main-content">
-                    <!-- Top Navbar -->
-                    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-                        <div class="container-fluid">
-                            <h5 class="navbar-brand mb-0">@yield('page-title', 'Training Portal Dashboard')</h5>
-                            
-                            <div class="navbar-nav ms-auto">
-                                <span class="navbar-text me-3">
-                                    Welcome, <strong>{{ Auth::user()->name ?? 'Admin' }}</strong>!
-                                </span>
-                            </div>
-                        </div>
-                    </nav>
-                    
-                    <!-- Content Container -->
-                    <div class="container-fluid p-4">
-                        @yield('content')
-                    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <div class="container-fluid">
+                <button class="sidebar-toggle" id="sidebarToggle" type="button">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h5 class="navbar-brand mb-0">@yield('page-title', 'Training Portal Dashboard')</h5>
+                
+                <div class="navbar-nav ms-auto">
+                    <span class="navbar-text me-3">
+                        Welcome, <strong>{{ Auth::user()->name ?? 'Admin' }}</strong>!
+                    </span>
                 </div>
             </div>
+        </nav>
+        
+        <!-- Content Container -->
+        <div class="container-fluid p-4">
+            @yield('content')
         </div>
     </div>
     
     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+    
+    <script>
+        // Sidebar toggle functionality
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const mainContent = document.querySelector('.main-content');
+        
+        function toggleSidebar() {
+            sidebar.classList.toggle('show');
+            sidebarOverlay.classList.toggle('show');
+        }
+        
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+        }
+        
+        // Close sidebar when clicking nav links on mobile
+        const navLinks = document.querySelectorAll('.sidebar .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) {
+                    toggleSidebar();
+                }
+            });
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 992) {
+                sidebar.classList.remove('show');
+                sidebarOverlay.classList.remove('show');
+            }
+        });
+    </script>
     
     @stack('scripts')
     @yield('scripts')

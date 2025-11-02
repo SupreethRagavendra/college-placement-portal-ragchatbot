@@ -203,54 +203,55 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 px-0">
-                <div class="sidebar">
-                    <div class="p-4">
-                        <h4 class="text-white mb-4">
-                            <i class="fas fa-shield-alt me-2"></i>
-                             Admin Portal
-                        </h4>
-                        <nav class="nav flex-column">
-                            <a class="nav-link active" href="#dashboard">
-                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                            </a>
-                            <a class="nav-link" href="{{ route('admin.pending-students') }}">
-                                <i class="fas fa-clock me-2"></i>Pending Students
-                            </a>
-                            <a class="nav-link" href="{{ route('admin.approved-students') }}">
-                                <i class="fas fa-check-circle me-2"></i>Approved Students
-                            </a>
-                            <a class="nav-link" href="{{ route('admin.rejected-students') }}">
-                                <i class="fas fa-times-circle me-2"></i>Rejected Students
-                            </a>
-                            <hr class="text-white-50">
-                            <a class="nav-link" href="{{ route('admin.assessments.index') }}">
-                                <i class="fas fa-clipboard-list me-2"></i>Assessments
-                            </a>
-                            <a class="nav-link" href="{{ route('admin.reports.student-performance') }}">
-                                <i class="fas fa-user-graduate me-2"></i>Student Progress
-                            </a>
-                            <a class="nav-link" href="{{ url('/admin/reports') }}">
-                                <i class="fas fa-chart-line me-2"></i>Reports
-                            </a>
-                            <hr class="text-white-50">
-                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt me-2"></i>Logout
-                            </a>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="p-4">
+            <h4 class="text-white mb-4">
+                <i class="fas fa-shield-alt me-2"></i>
+                 Admin Portal
+            </h4>
+            <nav class="nav flex-column">
+                <a class="nav-link active" href="#dashboard">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ route('admin.pending-students') }}">
+                    <i class="fas fa-clock me-2"></i>Pending Students
+                </a>
+                <a class="nav-link" href="{{ route('admin.approved-students') }}">
+                    <i class="fas fa-check-circle me-2"></i>Approved Students
+                </a>
+                <a class="nav-link" href="{{ route('admin.rejected-students') }}">
+                    <i class="fas fa-times-circle me-2"></i>Rejected Students
+                </a>
+                <hr class="text-white-50">
+                <a class="nav-link" href="{{ route('admin.assessments.index') }}">
+                    <i class="fas fa-clipboard-list me-2"></i>Assessments
+                </a>
+                <a class="nav-link" href="{{ route('admin.reports.student-performance') }}">
+                    <i class="fas fa-user-graduate me-2"></i>Student Progress
+                </a>
+                <a class="nav-link" href="{{ url('/admin/reports') }}">
+                    <i class="fas fa-chart-line me-2"></i>Reports
+                </a>
+                <hr class="text-white-50">
+                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </nav>
+        </div>
+    </div>
 
-            <!-- Main Content -->
-            <div class="col-md-9 col-lg-10 px-0">
-                <div class="main-content">
+    <!-- Main Content -->
+    <div class="main-content">
                     <!-- Top Navigation -->
                     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
                         <div class="container-fluid">
+                            <button class="sidebar-toggle" id="sidebarToggle" type="button">
+                                <i class="fas fa-bars"></i>
+                            </button>
                             <h5 class="navbar-brand mb-0">
                                 <i class="fas fa-chart-line me-2" style="color: var(--primary-red);"></i>
                                 Training Portal Dashboard
@@ -555,8 +556,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </div>
 
     <!-- Logout Form -->
@@ -568,6 +567,43 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
+        // Sidebar toggle functionality
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        
+        function toggleSidebar() {
+            if (sidebar) sidebar.classList.toggle('show');
+            if (sidebarOverlay) sidebarOverlay.classList.toggle('show');
+        }
+        
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+        }
+        
+        // Close sidebar when clicking nav links on mobile
+        const navLinks = document.querySelectorAll('.sidebar .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) {
+                    toggleSidebar();
+                }
+            });
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 992) {
+                if (sidebar) sidebar.classList.remove('show');
+                if (sidebarOverlay) sidebarOverlay.classList.remove('show');
+            }
+        });
+        
+        // Existing dashboard scripts
         // Count-up animation
         document.querySelectorAll('.count-up').forEach(el => {
             const target = Number(el.getAttribute('data-count') || 0);
@@ -759,7 +795,7 @@
         // Update stats every 5 seconds
         setInterval(updateStatsOnly, 5000);
         
-        console.log('✅ Auto-update enabled for 4 stats (every 5 seconds)');
+        console.log('? Auto-update enabled for 4 stats (every 5 seconds)');
     </script>
 </body>
 </html>

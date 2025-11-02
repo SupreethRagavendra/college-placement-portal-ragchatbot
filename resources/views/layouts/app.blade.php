@@ -53,6 +53,90 @@
                 padding: 2rem 0;
                 margin-top: 3rem;
             }
+            
+            /* Responsive Styles */
+            @media (max-width: 768px) {
+                body {
+                    padding-top: 60px;
+                }
+                
+                .page-header {
+                    padding: 1.5rem 0;
+                    margin-bottom: 1.5rem;
+                    border-radius: 0 0 20px 20px;
+                }
+                
+                .page-header h1 {
+                    font-size: 1.5rem;
+                }
+                
+                .content-wrapper {
+                    padding: 1.5rem;
+                    border-radius: 15px;
+                    margin-bottom: 1.5rem;
+                }
+                
+                .kit-footer {
+                    padding: 1.5rem 0;
+                    margin-top: 2rem;
+                }
+                
+                .kit-footer .row {
+                    margin: 0;
+                }
+                
+                .kit-footer .col-md-6,
+                .kit-footer .col-md-3 {
+                    margin-bottom: 1.5rem;
+                }
+                
+                .kit-footer img {
+                    height: 50px !important;
+                }
+                
+                .kit-footer h5 {
+                    font-size: 1.1rem;
+                }
+                
+                .kit-footer h6 {
+                    font-size: 1rem;
+                }
+                
+                .kit-footer p,
+                .kit-footer small {
+                    font-size: 0.85rem;
+                }
+            }
+            
+            @media (max-width: 575.98px) {
+                .page-header {
+                    padding: 1rem 0;
+                    margin-bottom: 1rem;
+                }
+                
+                .page-header h1 {
+                    font-size: 1.3rem;
+                }
+                
+                .content-wrapper {
+                    padding: 1rem;
+                    border-radius: 10px;
+                }
+                
+                .kit-footer {
+                    padding: 1rem 0;
+                }
+                
+                .kit-footer .d-flex {
+                    flex-direction: column;
+                    align-items: flex-start !important;
+                }
+                
+                .kit-footer img {
+                    margin-bottom: 10px !important;
+                    margin-right: 0 !important;
+                }
+            }
         </style>
         
         <!-- Page Specific Styles -->
